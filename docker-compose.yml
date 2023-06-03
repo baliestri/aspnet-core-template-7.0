@@ -1,0 +1,28 @@
+version: "3.8"
+name: "aspnet-core-template"
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: aspnet-core-template-db
+    env_file:
+      - .env
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=${DB_PASSWORD}
+    ports:
+      - "1433:1433"
+    volumes:
+      - db:/var/opt/mssql
+    networks:
+      - aspnet-core-template-network
+
+networks:
+  aspnet-core-template-network:
+    driver: bridge
+    name: aspnet-core-template-network
+
+volumes:
+  db:
+    driver: local
+    name: aspnet-core-template-db
